@@ -7,6 +7,7 @@ import cors from 'cors';
 import { connectToDB } from "./config/db";
 import AuthRoutes from './routes/authRoutes';
 import HeroRoutes from './routes/heroRoutes';
+import SkillsRoutes from './routes/skillsRoutes';
 import path from "path";
 
 const app = express();
@@ -31,6 +32,7 @@ connectToDB();
 // Routers 
 app.use('/api/auth', AuthRoutes);
 app.use('/api/hero', HeroRoutes);
+app.use('/api/skills', SkillsRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT , ()=>{
