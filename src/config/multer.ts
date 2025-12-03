@@ -1,40 +1,41 @@
 import path from "path";
-import multer from 'multer';
-import fs from 'fs';
-import { Req } from "../types/express";
+import multer, { FileFilterCallback } from "multer";
+import fs from "fs";
+import { Request } from "express";
 
-const uploadsDir = path.join(process.cwd() ,'uploads');
+const uploadsDir = path.join(process.cwd(), "uploads");
 
-if(!fs.existsSync(uploadsDir)){
-    fs.mkdirSync(uploadsDir, {recursive:true});
-};
+if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+}
 
 const storage = multer.diskStorage({
-    destination:function(req , file , cb){
-        cb(null , uploadsDir);
+    destination(req, file, cb) {
+        cb(null, uploadsDir);
     },
-    filename: function(req , file , cb){
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random()+1e7);
-        cb(null , uniqueSuffix + path.extname(file.originalname));
-    }
+    filename(req, file, cb) {
+        const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e7);
+        cb(null, uniqueSuffix + path.extname(file.originalname));
+    },
 });
 
-const fileFilter  = (req:Req , file:any , cb:any)=>{
+const fileFilter = (req: Request, file: Express.Multer.File, cb: FileFilterCallback) => {
     const allowedTypes = /jpeg|jpg|png|webp/;
-    const isMimeTypesValid = allowedTypes.test(file.mimetype);
-    const isExValid = allowedTypes.test(path.extname(file.originalname).toLowerCase());
-    if(isMimeTypesValid && isExValid){
-        cb(null , true)
-    }else{
-        cb(new Error('File is *jpeg,jpg,png,webp*'))
+
+    const isMimeValid = allowedTypes.test(file.mimetype);
+    const isExtValid = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+
+    if (isMimeValid && isExtValid) {
+        cb(null, true);
+    } else {
+        cb(new Error("File must be jpeg, jpg, png, webp"));
     }
 };
 
-
 const limits = {
-    fileSize: 5 * 1024 * 1024
+    fileSize: 5 * 1024 * 1024, // 5MB
 };
 
-const upload = multer ({storage , fileFilter , limits});
+const upload = multer({ storage, fileFilter, limits });
 
-export default upload
+export default upload;
