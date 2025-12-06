@@ -15,7 +15,6 @@ export const heroController = {
             image = '';
         };
 
-        console.log('img', image)
 
         const hero = await heroServices.createHero({
             name,
