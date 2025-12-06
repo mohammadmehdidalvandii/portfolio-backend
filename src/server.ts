@@ -8,6 +8,7 @@ import { connectToDB } from "./config/db";
 import AuthRoutes from './routes/authRoutes';
 import HeroRoutes from './routes/heroRoutes';
 import SkillsRoutes from './routes/skillsRoutes';
+import ExperienceRouter from './routes/experienceRoutes';
 import path from "path";
 
 const app = express();
@@ -33,6 +34,7 @@ connectToDB();
 app.use('/api/auth', AuthRoutes);
 app.use('/api/hero', HeroRoutes);
 app.use('/api/skills', SkillsRoutes);
+app.use('/api/experience', ExperienceRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT , ()=>{
