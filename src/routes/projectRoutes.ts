@@ -6,6 +6,6 @@ const router = Router();
 
 router.get('/', projectsController.get);
 router.post('/create', upload.single('image') ,projectsController.create);
-router.patch('/update/:id', projectsController.update);
+router.patch('/update/:id', upload.single('image'), projectsController.update);
 
 export default router
