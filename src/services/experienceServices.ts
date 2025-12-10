@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import ExperienceModel from "../models/experience";
+import ExperienceModel from "../models/Experience";
 import { ExperienceProps } from "../types/experience";
 
 export const experienceServices = {
@@ -31,6 +31,14 @@ export const experienceServices = {
             data,
             {new:true}
         )
+        return experience
+    },
+    async deleteExperience(id:string){
+        if(!mongoose.Types.ObjectId.isValid(id)){
+            throw new Error("Invalid experience ID");
+        }
+        
+        const experience = await ExperienceModel.findOneAndDelete({_id:id});
         return experience
     }
 }

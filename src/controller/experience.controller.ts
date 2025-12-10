@@ -82,5 +82,31 @@ export const experienceController = {
                 error:error.message
             })
         }
+    },
+    async delete(req:Req , res:Res){
+        try{
+            const {id} = req.params;
+
+            if(!id){
+                return res.status(400).json({
+                    message:"ID is required",
+                    statusCode:400,
+                });
+            };
+
+            const deleteExperience = await experienceServices.deleteExperience(id);
+            res.status(204).json({
+                message:'Deleted Experience successfully',
+                statusCode:204,
+                data:deleteExperience,
+            })
+
+        }catch(error:any){
+            return res.status(500).json({
+                message:'Server Internal Error',
+                statusCode:500,
+                error:error.message
+            })
+        }
     }
 }
