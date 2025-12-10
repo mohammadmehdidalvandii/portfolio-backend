@@ -39,4 +39,11 @@ export const skillServices = {
         
         return skill
     },
+    async deleteSkill(id:string){
+        if(!mongoose.Types.ObjectId.isValid(id)){
+            throw new Error('Invalid user ID');
+        };
+        const skill = await SkillModel.findOneAndDelete({_id:id})       
+        return skill
+    }
 }
