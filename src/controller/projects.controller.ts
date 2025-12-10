@@ -99,5 +99,30 @@ export const projectsController = {
                 error:error.message
             })
         }
+    },
+    async delete(req:Req , res:Res){
+        try{
+            const {id} = req.params;
+            if(!id){
+                return res.status(400).json({
+                    message:"ID is required",
+                    statusCode:400,
+                });
+            }
+
+            const projectDelete = await projectServices.deleteProject(id);
+            res.status(204).json({
+                message:"Project deleted successfully",
+                statusCode:204,
+                data:projectDelete
+            })
+
+        }catch(error:any){
+            return res.status(500).json({
+                message:error.message,
+                statusCode:500,
+                error:error.message
+            })
+        }
     }
 }

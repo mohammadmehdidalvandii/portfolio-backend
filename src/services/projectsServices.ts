@@ -34,5 +34,12 @@ export const projectServices = {
         );
 
         return project
+    },
+    async deleteProject(id:string){
+        if(!mongoose.Types.ObjectId.isValid(id)){
+            throw new Error('Invalid project id')
+        };
+        const project = await ProjectsModel.findOneAndDelete({_id:id});
+        return project
     }
 }
